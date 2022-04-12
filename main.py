@@ -8,7 +8,10 @@ from ftplib import FTP
 from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from fake_useragent import UserAgent
 import markdown
 import pandas as pd
@@ -19,6 +22,11 @@ headers = {"User-Agent": ua.Chrome}
 
 options = Options()
 options.headless = True
+
+# CHROMEDRIVER_PATH = os.path.expanduser("~/bin/chromedriver")
+driver = webdriver.Chrome(
+    service=Service(ChromeDriverManager().install()), options=options
+)
 
 UNIPROT_BETA_HELP_URL = "https://beta.uniprot.org/help"
 UNIPROT_ORG_URL = "www.uniprot.org"
@@ -50,13 +58,10 @@ def is_anchor_in_page(anchor, driver):
 def is_uniprot_beta_url_ok(parsed):
     url = parsed.geturl()
     assert UNIPROT_BETA_URL in url
-    driver = webdriver.Chrome(
-        options=options, executable_path=os.path.expanduser("~/bin/chromedriver")
-    )
     driver.get(url)
     not_found_class_names = ["message--failure", "error-page-container__art-work"]
     for class_name in not_found_class_names:
-        if driver.find_elements_by_class_name(class_name):
+        if driver.find_elements(by=By.CLASS_NAME, value=class_name):
             return False, None
     if parsed.fragment:
         return True, is_anchor_in_page(parsed.fragment, driver)
