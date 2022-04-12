@@ -29,7 +29,8 @@ UNIPROT_BETA_KB_PATH = "/uniprotkb"
 
 def get_beta_help_url(help_file):
     basename = os.path.basename(help_file)
-    return os.path.join(UNIPROT_BETA_HELP_URL, basename)
+    filename, _ = os.path.splitext(basename)
+    return os.path.join(UNIPROT_BETA_HELP_URL, filename)
 
 
 def does_page_exist(url):
@@ -170,4 +171,3 @@ if __name__ == "__main__":
 
     write_tsv(all_dead_links, "./dead-links.tsv")
     write_tsv(all_dead_anchors, "./dead-anchors.tsv")
-
