@@ -1,3 +1,26 @@
-	help-page	dead-link
-0	https://beta.uniprot.org/help/update_notification.md	https://www.uniprot.org/news/
-1	https://beta.uniprot.org/help/catalytic_activity.md	https://www.uniprot.org/news/2018/12/05/release
+help-page	dead-link
+https://beta.uniprot.org/help/update_notification	https://www.uniprot.org/news/
+https://beta.uniprot.org/help/update_notification	https://www.uniprot.org/news/?format=rss
+https://beta.uniprot.org/help/catalytic_activity	https://www.uniprot.org/news/2018/12/05/release
+https://beta.uniprot.org/help/sab	https://neurosciences.ucsd.edu/faculty/Pages/maryann-martone.aspx
+https://beta.uniprot.org/help/sab	http://rutchem.rutgers.edu/berman%5Fhelen%5Fm
+https://beta.uniprot.org/help/sab	http://www.moleculargenetics.utoronto.ca/faculty/2014/10/7/gary-bader
+https://beta.uniprot.org/help/sab	http://www.bprc.ac.cn/bprc/English/expert/2008/0729/picture%5F1.html
+https://beta.uniprot.org/help/sab	http://datamining-iip.fudan.edu.cn/
+https://beta.uniprot.org/help/sab	http://babbittlab.compbio.ucsf.edu/
+https://beta.uniprot.org/help/sab	https://www.bcm.edu/people/view/sharon-plon-m-d-ph-d/chromosomes-chromatin-and-dna-biology-genetics-faculty-m-z-chromosomes-chromatin-and-dna-biology/b2601d8d-ffed-11e2-be68-080027880ca6/babc3eb0-c422-11e3-a42d-005056b104be
+https://beta.uniprot.org/help/sab	http://www.biotech.kth.se/proteomics/info/uhlen.html
+https://beta.uniprot.org/help/invertebrates	https://www.uniprot.org/program/Caenorhabditis
+https://beta.uniprot.org/help/invertebrates	https://www.uniprot.org/program/Drosophila
+https://beta.uniprot.org/help/mouse	https://www.uniprot.org/program/Chordata
+https://beta.uniprot.org/help/mouse	https://www.uniprot.org/program/chordata/statistics/#Musmusculus
+https://beta.uniprot.org/help/align-jalview	https://www.uniprot.org/use
+https://beta.uniprot.org/help/align-jalview	http://www.java.com/en/download/faq/java%5Fwebstart.xml
+https://beta.uniprot.org/help/align-jalview	http://www.java.com/
+https://beta.uniprot.org/help/Caenorhabditis	https://www.uniprot.org/faq/45
+https://beta.uniprot.org/help/Plants	https://www.uniprot.org/faq/45
+https://beta.uniprot.org/help/medical_advice	http://medlineplus.nlm.nih.gov/medlineplus/
+https://beta.uniprot.org/help/medical_advice	http://www.medsitenavigator.com/
+https://beta.uniprot.org/help/controlled_vocabulary	http://www.unipathway.org/
+https://beta.uniprot.org/help/controlled_vocabulary	https://www.uniprot.org/help/references
+https://beta.uniprot.org/help/entry_information_section	https://www.uniprot.org/uniprot.org/program/

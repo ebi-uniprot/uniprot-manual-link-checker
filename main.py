@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 from glob import glob
 import os
-from pathlib import Path
-import shutil
 from urllib.parse import unquote, urlparse
 from ftplib import FTP
 from bs4 import BeautifulSoup
@@ -12,6 +10,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from fake_useragent import UserAgent
 import markdown
 import pandas as pd
@@ -23,16 +24,20 @@ headers = {"User-Agent": ua.Chrome}
 options = Options()
 options.headless = True
 
-# CHROMEDRIVER_PATH = os.path.expanduser("~/bin/chromedriver")
 driver = webdriver.Chrome(
     service=Service(ChromeDriverManager().install()), options=options
 )
+
+DEAD_LINKS_FILE = "./dead-links.tsv"
+DEAD_ANCHORS_FILE = "./dead-anchors.tsv"
 
 UNIPROT_BETA_HELP_URL = "https://beta.uniprot.org/help"
 UNIPROT_ORG_URL = "www.uniprot.org"
 UNIPROT_BETA_URL = "beta.uniprot.org"
 UNIPROT_ORG_KB_PATH = "/uniprot"
 UNIPROT_BETA_KB_PATH = "/uniprotkb"
+
+TIMEOUT = 5
 
 
 def get_beta_help_url(help_file):
@@ -49,22 +54,27 @@ def does_page_exist(url):
     return response.ok
 
 
-def is_anchor_in_page(anchor, driver):
-    for _ in driver.find_elements_by_id(anchor):
-        return True
-    return False
+def is_anchor_in_page(anchor):
+    try:
+        WebDriverWait(driver, TIMEOUT).until(
+            EC.presence_of_element_located((By.ID, anchor))
+        )
+    except:
+        pass
+    return len(driver.find_elements(by=By.ID, value=anchor)) > 0
 
 
 def is_uniprot_beta_url_ok(parsed):
     url = parsed.geturl()
     assert UNIPROT_BETA_URL in url
     driver.get(url)
+    # scroll_to_bottom()
     not_found_class_names = ["message--failure", "error-page-container__art-work"]
     for class_name in not_found_class_names:
         if driver.find_elements(by=By.CLASS_NAME, value=class_name):
             return False, None
     if parsed.fragment:
-        return True, is_anchor_in_page(parsed.fragment, driver)
+        return True, is_anchor_in_page(unquote(parsed.fragment))
 
     return True, None
 
@@ -136,16 +146,23 @@ def check_and_standardize_all_links(soup):
             _dead_links.append(url)
         if anchor_found is not None and not anchor_found:
             _dead_anchors.append(url)
-        # print(url, ok, anchor_found)
     return set(_dead_links), set(_dead_anchors)
 
 
 def write_tsv(L, path):
     df = pd.DataFrame(L)
-    df.to_csv(path, sep="\t")
+    df.to_csv(path, sep="\t", index=False)
+
+
+def remove_if_exists(path):
+    if os.path.exists(path):
+        os.remove(path)
 
 
 if __name__ == "__main__":
+
+    remove_if_exists(DEAD_ANCHORS_FILE)
+    remove_if_exists(DEAD_LINKS_FILE)
 
     help_files = glob("./uniprot-manual/help/*.md")
 
@@ -171,8 +188,8 @@ if __name__ == "__main__":
                 )
         except Exception as e:
             print(e)
-        if i > 10:
+        if i > 40:
             break
 
-    write_tsv(all_dead_links, "./dead-links.tsv")
-    write_tsv(all_dead_anchors, "./dead-anchors.tsv")
+    write_tsv(all_dead_links, DEAD_LINKS_FILE)
+    write_tsv(all_dead_anchors, DEAD_ANCHORS_FILE)

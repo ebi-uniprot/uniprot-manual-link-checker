@@ -1,5 +1,16 @@
-	help-page	dead-anchor
-0	https://beta.uniprot.org/help/peptide.md	https://www.uniprot.org/uniprotkb/Q9SE35#ptm%5Fprocessing
-1	https://beta.uniprot.org/help/peptide.md	https://www.uniprot.org/help/sequence%5Fannotation#annotation%5Fid
-2	https://beta.uniprot.org/help/domain_cc.md	https://www.uniprot.org/uniprotkb/Q9BZZ5#family%5Fand%5Fdomains
-3	https://beta.uniprot.org/help/domain_cc.md	https://www.uniprot.org/uniprotkb/Q96NN9#family%5Fand%5Fdomains
+help-page	dead-anchor
+https://beta.uniprot.org/help/peptide	https://www.uniprot.org/help/sequence%5Fannotation#annotation%5Fid
+https://beta.uniprot.org/help/gene_name	https://www.uniprot.org/uniprotkb/Q50496#names%5Fand%5Ftaxonomy
+https://beta.uniprot.org/help/canonical_and_isoforms	https://www.uniprot.org/uniprotkb/P42284#sequences
+https://beta.uniprot.org/help/unsure	https://www.uniprot.org/uniprotkb/P56576#sequences
+https://beta.uniprot.org/help/unsure	https://www.uniprot.org/uniprotkb/P00279#sequences
+https://beta.uniprot.org/help/init_met	https://www.uniprot.org/uniprotkb/Q7XAD0#sequences
+https://beta.uniprot.org/help/Caenorhabditis	https://www.uniprot.org/biocuration%5Fproject/Caenorhabditis/statistics/#Caenorhabditisbriggsae
+https://beta.uniprot.org/help/Caenorhabditis	https://www.uniprot.org/biocuration%5Fproject/Caenorhabditis/statistics/#Caenorhabditiselegans
+https://beta.uniprot.org/help/Plants	https://www.uniprot.org/biocuration%5Fproject/Plants/statistics/#Oryzasativasubspjaponica
+https://beta.uniprot.org/help/Plants	https://www.uniprot.org/biocuration%5Fproject/Plants/statistics/#Arabidopsisthaliana
+https://beta.uniprot.org/help/disruption_phenotype	https://www.uniprot.org/uniprotkb/Q8K1M6#pathology%5Fand%5Fbiotech
+https://beta.uniprot.org/help/miscellaneous	https://www.uniprot.org/uniprotkb/O77459#miscellaneous
+https://beta.uniprot.org/help/miscellaneous	https://www.uniprot.org/uniprotkb/Q96KQ4#miscellaneous
+https://beta.uniprot.org/help/sequence_origin	https://www.uniprot.org/uniprotkb/P13744#sequences
+https://beta.uniprot.org/help/controlled_vocabulary	https://www.uniprot.org/help/taxonomy#strain
