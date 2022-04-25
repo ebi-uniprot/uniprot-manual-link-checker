@@ -15,7 +15,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from fake_useragent import UserAgent
 import markdown
-import pandas as pd
 
 # Use this to fake a valid user agent for requests
 ua = UserAgent()
@@ -60,15 +59,27 @@ def is_anchor_in_page(anchor):
             EC.presence_of_element_located((By.ID, anchor))
         )
     except:
-        pass
+        return False
     return len(driver.find_elements(by=By.ID, value=anchor)) > 0
+
+
+def is_error():
+    error_xpath = (
+        "//*[@class='message--failure' or @class='error-page-container__art-work']"
+    )
+    try:
+        WebDriverWait(driver, TIMEOUT).until(
+            EC.presence_of_element_located((By.XPATH, error_xpath))
+        )
+    except:
+        return False
+    return driver.find_elements(by=By.XPATH, value=error_xpath), None
 
 
 def is_uniprot_beta_url_ok(parsed):
     url = parsed.geturl()
     assert UNIPROT_BETA_URL in url
     driver.get(url)
-    # scroll_to_bottom()
     not_found_class_names = ["message--failure", "error-page-container__art-work"]
     for class_name in not_found_class_names:
         if driver.find_elements(by=By.CLASS_NAME, value=class_name):
@@ -149,11 +160,6 @@ def check_and_standardize_all_links(soup):
     return set(_dead_links), set(_dead_anchors)
 
 
-def write_tsv(L, path):
-    df = pd.DataFrame(L)
-    df.to_csv(path, sep="\t", index=False)
-
-
 def remove_if_exists(path):
     if os.path.exists(path):
         os.remove(path)
@@ -169,27 +175,21 @@ if __name__ == "__main__":
     all_dead_links = []
     all_dead_anchors = []
 
-    for i, help_file in enumerate(help_files):
-        try:
-            print(help_file)
-            with open(help_file) as f:
-                md = f.read()
-            html = markdown.markdown(md)
-            soup = BeautifulSoup(html, features="html.parser")
-            dead_links, dead_anchors = check_and_standardize_all_links(soup)
-            beta_help_url = get_beta_help_url(help_file)
-            for dead_link in dead_links:
-                all_dead_links.append(
-                    {"help-page": beta_help_url, "dead-link": dead_link}
-                )
-            for dead_anchor in dead_anchors:
-                all_dead_anchors.append(
-                    {"help-page": beta_help_url, "dead-anchor": dead_anchor}
-                )
-        except Exception as e:
-            print(e)
-        if i > 40:
-            break
-
-    write_tsv(all_dead_links, DEAD_LINKS_FILE)
-    write_tsv(all_dead_anchors, DEAD_ANCHORS_FILE)
+    with open(DEAD_ANCHORS_FILE, "w") as af, open(DEAD_LINKS_FILE, "w") as lf:
+        for i, help_file in enumerate(help_files):
+            try:
+                print(help_file)
+                with open(help_file) as f:
+                    md = f.read()
+                html = markdown.markdown(md)
+                soup = BeautifulSoup(html, features="html.parser")
+                dead_links, dead_anchors = check_and_standardize_all_links(soup)
+                beta_help_url = get_beta_help_url(help_file)
+                for dead_link in dead_links:
+                    print(f"{beta_help_url}\t{dead_link}", file=lf)
+                    lf.flush()
+                for dead_anchor in dead_anchors:
+                    print(f"{beta_help_url}\t{dead_anchor}", file=af)
+                    af.flush()
+            except Exception as e:
+                print(e)
